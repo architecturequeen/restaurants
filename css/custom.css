@@ -1,0 +1,40 @@
+html, body {
+	overflow-x: hidden;
+}
+
+/*Restaurant Page*/
+
+#reviews-container li,
+#restaurants-list li {
+	width: 45%;
+    margin: 1%;
+    padding: 1%;	
+}
+
+#reviews-container ul ,
+#restaurants-list {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+
+#restaurant-container {
+	padding: 40px 40px 30px;
+}
+
+/*Entry Page*/
+
+.filter-options {
+	padding-top:2%;
+}
+
+.inside #footer {
+	width: 100%;
+	padding-left: 1%;
+}
+
+nav h1 {
+	padding:2%;
+}
+
+

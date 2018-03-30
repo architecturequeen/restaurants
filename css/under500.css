@@ -1,0 +1,12 @@
+@media screen and (max-width: 500px) {
+   #reviews-container li {
+		width: 98%;
+		margin: 1%;
+		padding: 1%;	
+	}
+
+	.col-1-2 {
+		width: 98%;
+		float:left;
+    }
+}

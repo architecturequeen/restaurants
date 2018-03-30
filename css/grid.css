@@ -1,0 +1,19 @@
+.col-1-1{
+	width: 100%;
+}
+
+.col-1-2{
+	width: 49%;
+	float:left;
+}
+
+.col-1-4{
+	width: 24%;
+}
+
+section::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
