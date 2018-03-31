@@ -26,9 +26,13 @@
       <h1><a href="/">Restaurant Reviews</a></h1>
     </nav>
     <!-- Beginning breadcrumb -->
-    <ul id="breadcrumb" >
-      <li><a href="/">Home</a></li>
-    </ul>
+    <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+      <ol id="breadcrumb" >
+        <li><a href="/">Home</a></li>
+      </ol>
+    </nav>
+    
+  </nav>
     <!-- End breadcrumb -->
     <!-- End nav -->
   </header>
@@ -40,14 +44,14 @@
     <section id="map-container" aria-label="Map of Restaurants"> 
           <div class="row">
             <div class="col-1-1">
-              <div id="map"></div>
+              <div id="map" role="application"></div>
             </div>
           </div>  
     </section>
     <!-- End map -->
     <!-- Beginning restaurant -->
     <section id="restaurant-container">
-      <h1 id="restaurant-name"></h1>
+      <h2 id="restaurant-name"></h2>
       <div class="row">
         <div class="col-1-2">
           <!-- Alt tag for restaurant will be populated using javascript. See restaurant_info.js and main.js -->

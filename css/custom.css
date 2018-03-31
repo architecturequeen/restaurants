@@ -30,6 +30,14 @@ html, body {
 	color: #BF1722;
 }
 
+#breadcrumb {
+	text-align: left;
+}
+
+.breadcrumb-nav {
+	background-color: transparent;
+}
+
 /*Entry Page*/
 
 #restaurants-list li {
