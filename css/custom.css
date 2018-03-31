@@ -37,4 +37,20 @@ nav h1 {
 	padding:2%;
 }
 
+.skip-link {
+	position: absolute;
+	top:-40px;
+	left:0;
+	background:#BF1722;
+	color:white;
+	padding: 8px;
+	z-index: 0;
+}
+
+.skip-link:focus {
+	position: relative;
+	top:0px;
+	z-index: 999;
+}	
+
 
