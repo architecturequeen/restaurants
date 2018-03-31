@@ -1,9 +1,9 @@
 # Submission Info for Restaurants Stage 1 Project
 ---
 
-1. To Run, use this comman `python -m SimpleHTTPServer 8000`
+1. To Run, use this command `python -m SimpleHTTPServer 8000`
 2. CSS files are in /css/*
-3. Service Worker is in ./sw/js
+3. Service Worker code is in ./sw.js
 
 
 
