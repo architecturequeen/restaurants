@@ -120,6 +120,7 @@ createReviewHTML = (review) => {
   const li = document.createElement('li');
   const name = document.createElement('p');
   name.innerHTML = review.name;
+  name.setAttribute("class", "reviewer");
   li.appendChild(name);
 
   const date = document.createElement('p');
@@ -128,6 +129,7 @@ createReviewHTML = (review) => {
 
   const rating = document.createElement('p');
   rating.innerHTML = `Rating: ${review.rating}`;
+  rating.setAttribute("class", "rating");
   li.appendChild(rating);
 
   const comments = document.createElement('p');

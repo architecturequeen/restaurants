@@ -22,6 +22,15 @@ html, body {
 	padding: 40px 40px 30px;
 }
 
+.reviewer {
+	color: orange;
+    font-weight: 600;
+}
+
+.rating {
+	color: #BF1722;
+}
+
 /*Entry Page*/
 
 .filter-options {
