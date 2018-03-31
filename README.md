@@ -1,3 +1,12 @@
+# Submission Info for Restaurants Stage 1 Project
+---
+
+1. To Run, use this comman `python -m SimpleHTTPServer 8000`
+2. CSS files are in /css/*
+3. Service Worker is in ./sw/js
+
+
+
 # Mobile Web Specialist Certification Course
 ---
 #### _Three Stage Course Material Project - Restaurant Reviews_
