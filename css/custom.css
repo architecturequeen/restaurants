@@ -4,8 +4,7 @@ html, body {
 
 /*Restaurant Page*/
 
-#reviews-container li,
-#restaurants-list li {
+#reviews-container li {
 	width: 45%;
     margin: 1%;
     padding: 1%;	
@@ -32,6 +31,12 @@ html, body {
 }
 
 /*Entry Page*/
+
+#restaurants-list li {
+	width: 20%;
+    margin: 1%;
+    padding: 1%;	
+}
 
 .filter-options {
 	padding-top:2%;

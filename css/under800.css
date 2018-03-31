@@ -1,0 +1,5 @@
+@media screen and (max-width: 800px) {
+   #restaurants-list li{
+		width: 28%;		
+	}
+}

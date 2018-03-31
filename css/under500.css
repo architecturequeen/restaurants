@@ -9,4 +9,9 @@
 		width: 98%;
 		float:left;
     }
+
+    #restaurants-list li{
+		width: 98%;		
+	}
+
 }
