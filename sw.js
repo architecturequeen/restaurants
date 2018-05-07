@@ -1,16 +1,15 @@
-
 const filesToCache = [
   'index.html',
-  'restuarants.html',
-  'css/custom.css',
-  'css/grid.css',
-  'css/styles.css',
-  'under500.css',
-  'under620.css',
-  'under800.css'
-]
+  'restaurant.html',
+  './css/custom.css',
+  './css/grid.css',
+  './css/styles.css',
+  './css/under500.css',
+  './css/under620.css',
+  './css/under800.css'
+];
 
-var cacheName = 'restaurants-v1';
+const cacheName = 'restaurants-v1';
 
 self.addEventListener('install', function(event) {
   console.log('Attempting to install service worker and cache static assets');
