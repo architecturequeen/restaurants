@@ -7,7 +7,7 @@ html, body {
 #reviews-container li {
 	width: 45%;
     margin: 1%;
-    padding: 1%;	
+    padding: 1%;
 }
 
 #reviews-container ul ,
@@ -43,7 +43,11 @@ html, body {
 #restaurants-list li {
 	width: 20%;
     margin: 1%;
-    padding: 1%;	
+    padding: 1%;
+}
+
+#restaurants-list li a {
+	color: black;
 }
 
 .filter-options {
@@ -73,6 +77,10 @@ nav h1 {
 	position: relative;
 	top:0px;
 	z-index: 999;
-}	
+}
+
+.filter-options h2 {
+	color: black;
+}
 
 
