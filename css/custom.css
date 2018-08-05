@@ -38,6 +38,18 @@ html, body {
 	background-color: transparent;
 }
 
+#fav-btn {
+	color: black;
+	background: transparent;
+	border: none;
+    font-size: 30px;
+    font-weight: normal;
+}
+
+#restaurant-name{
+	display: inline-block;
+}
+
 /*Entry Page*/
 
 #restaurants-list li {

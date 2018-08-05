@@ -40,6 +40,7 @@ fetchRestaurantFromURL = (callback) => {
         return;
       }
       fillRestaurantHTML();
+      styleFavBtn(restaurant);
       callback(null, restaurant)
     });
   }
@@ -164,3 +165,45 @@ getParameterByName = (name, url) => {
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
+
+
+/**
+ * Update Styling of Favourite Button
+ */
+styleFavBtn = (restaurant=self.restaurant) => {
+  console.log(restaurant)
+  const FAVOURITED_COLOUR = "rgb(255, 165, 0)";
+  const DEFAULT_COLOUR = "rgb(0, 0, 0)";
+  let favBtn = document.getElementById("fav-btn");
+  favBtn.style.color = restaurant.is_favorite ? FAVOURITED_COLOUR : DEFAULT_COLOUR;
+}
+
+
+/**
+ * Mark Restaurant As Favourite
+ */
+ markRestaurantAsFavourite = () => {
+  const restaurantId = url = new URL(window.location.href).searchParams.get("id");
+  let favBtn = document.getElementById("fav-btn");
+  const getFavBtnStyles = window.getComputedStyle(favBtn);
+  const FAVOURITED_COLOUR = "rgb(255, 165, 0)";
+  const DEFAULT_COLOUR = "rgb(0, 0, 0)";
+  const favouriteResturantUrl = `http://localhost:1337/restaurants/${restaurantId}/?is_favorite=true`;
+  const unfavouriteRestaurantUrl = `http://localhost:1337/restaurants/${restaurantId}/?is_favorite=false`
+  const favouriteRequestUrl = (getFavBtnStyles.getPropertyValue("color") === FAVOURITED_COLOUR) ? unfavouriteRestaurantUrl : favouriteResturantUrl
+  fetch(favouriteRequestUrl, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8"
+        }
+    })
+  .then(function(response) {
+    console.log(response);
+    if (response.ok){
+      favBtn.style.color = (getFavBtnStyles.getPropertyValue("color") === FAVOURITED_COLOUR) ? DEFAULT_COLOUR : FAVOURITED_COLOUR
+    }
+    return response.json();
+  });
+ }
+
+
