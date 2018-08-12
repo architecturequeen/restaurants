@@ -82,6 +82,41 @@
 
     </section>
     <!-- End reviews -->
+    <!-- Beginning Submit Review Section -->
+    <section id="submit-review-container">
+      <h2>Submit a Review</h2>
+      <div class="row">
+          <form>
+            <div>
+              <label for="user" > User Name </label>
+              <input type="text" id="user" name="user" placeholder="e.g. User Name"/>
+            </div>
+            <div>
+              <label for="restaurantId" > Restaurant ID </label>
+              <input type="text" id="restaurantId" name="restaurantId" placeholder="e.g. Restaurant ID"/>
+            </div>
+            <div>
+              <label for="rating">Rating: </label>
+              <select id="rating">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+            </div>
+            <div>
+              <label for="comments" > Comments </label>
+              <textarea  id="comments" name="comments" placeholder="e.g. Comments"/></textarea>
+            </div>
+            <div>
+              <button type="button" onclick="submitReview()">Submit</button>
+            </div>
+          </form>
+      </div>
+
+    </section>
+    <!-- End Submit Reviews -->
   </main>
   <!-- End main -->
 

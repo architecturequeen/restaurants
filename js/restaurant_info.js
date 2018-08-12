@@ -183,7 +183,7 @@ styleFavBtn = (restaurant=self.restaurant) => {
  * Mark Restaurant As Favourite
  */
  markRestaurantAsFavourite = () => {
-  const restaurantId = url = new URL(window.location.href).searchParams.get("id");
+  const restaurantId = new URL(window.location.href).searchParams.get("id");
   let favBtn = document.getElementById("fav-btn");
   const getFavBtnStyles = window.getComputedStyle(favBtn);
   const FAVOURITED_COLOUR = "rgb(255, 165, 0)";
@@ -206,4 +206,24 @@ styleFavBtn = (restaurant=self.restaurant) => {
   });
  }
 
-
+ submitReview = () => {
+  console.log("submit review")
+  const name = document.getElementById("user").value;
+  const rating = document.getElementById("rating").value;
+  const comments = document.getElementById("comments").value;
+  const restaurant_id = document.getElementById("restaurantId").value;
+  if (name == null | name.trim() == "" | rating == null | rating.trim() == "" | comments == null | comments.trim() == "" | restaurant_id == null | restaurant_id.trim() == ""){
+    console.log("empty fields");
+    console.log( {name, rating, comments, restaurant_id});
+  }
+  else{
+    console.log({name, rating, comments, restaurant_id})
+    fetch("http://localhost:1337/reviews/",
+      {
+        method: "POST",
+        body : JSON.stringify({name, rating, comments, restaurant_id}),
+        headers: { "Content-Type": "application/json"}
+      }
+    ).then(res => { console.log(res)})
+  }
+ }
