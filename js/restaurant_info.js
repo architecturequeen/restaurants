@@ -24,6 +24,7 @@ window.initMap = () => {
  * Get current restaurant from page URL.
  */
 fetchRestaurantFromURL = (callback) => {
+  console.log("fetch restaurant from url called");
   if (self.restaurant) { // restaurant already fetched!
     callback(null, self.restaurant)
     return;
@@ -95,23 +96,33 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 /**
  * Create all reviews HTML and add them to the webpage.
  */
-fillReviewsHTML = (reviews = self.restaurant.reviews) => {
-  const container = document.getElementById('reviews-container');
-  const title = document.createElement('h2');
-  title.innerHTML = 'Reviews';
-  container.appendChild(title);
-
-  if (!reviews) {
-    const noReviews = document.createElement('p');
-    noReviews.innerHTML = 'No reviews yet!';
-    container.appendChild(noReviews);
-    return;
-  }
-  const ul = document.getElementById('reviews-list');
-  reviews.forEach(review => {
-    ul.appendChild(createReviewHTML(review));
+// fillReviewsHTML = (reviews = self.restaurant.reviews) => {
+fillReviewsHTML = () => {
+  console.log("fill review called")
+  const restaurantId =new URL(window.location.href).searchParams.get("id");
+  console.log("Restaurant ID", restaurantId)
+  fetch(`http://localhost:1337/reviews/?restaurant_id=${restaurantId}`)
+  .then(res => res.json())
+  .catch(error => console.error('Error:', error))
+  .then(reviews => {
+    console.log('Success:', reviews)
+    console.log("reviews from fetch", reviews)
+    const container = document.getElementById('reviews-container');
+    const title = document.createElement('h2');
+    title.innerHTML = 'Reviews';
+    container.appendChild(title);
+    if (!reviews) {
+      const noReviews = document.createElement('p');
+      noReviews.innerHTML = 'No reviews yet!';
+      container.appendChild(noReviews);
+      return;
+    }
+    const ul = document.getElementById('reviews-list');
+    reviews.forEach(review => {
+      ul.appendChild(createReviewHTML(review));
+    });
+    container.appendChild(ul);
   });
-  container.appendChild(ul);
 }
 
 /**
@@ -125,7 +136,8 @@ createReviewHTML = (review) => {
   li.appendChild(name);
 
   const date = document.createElement('p');
-  date.innerHTML = review.date;
+  // date.innerHTML = review.date;
+  date.innerHTML = new Date(review.createdAt).toDateString();
   li.appendChild(date);
 
   const rating = document.createElement('p');
@@ -207,23 +219,54 @@ styleFavBtn = (restaurant=self.restaurant) => {
  }
 
  submitReview = () => {
-  console.log("submit review")
   const name = document.getElementById("user").value;
   const rating = document.getElementById("rating").value;
   const comments = document.getElementById("comments").value;
   const restaurant_id = document.getElementById("restaurantId").value;
+
+  console.log("will add to db", {name, rating, comments, restaurant_id})
+
   if (name == null | name.trim() == "" | rating == null | rating.trim() == "" | comments == null | comments.trim() == "" | restaurant_id == null | restaurant_id.trim() == ""){
     console.log("empty fields");
     console.log( {name, rating, comments, restaurant_id});
   }
-  else{
-    console.log({name, rating, comments, restaurant_id})
-    fetch("http://localhost:1337/reviews/",
-      {
-        method: "POST",
-        body : JSON.stringify({name, rating, comments, restaurant_id}),
-        headers: { "Content-Type": "application/json"}
+  else {
+    // does db exist?
+    // if yes, add pending request
+    // if no, add pending request AND register sync
+   var indexedDB =
+      window.indexedDB ||
+      window.mozIndexedDB ||
+      window.webkitIndexedDB ||
+      window.msIndexedDB ||
+      window.shimIndexedDB;
+
+    var open = indexedDB.open("PendingReviewsDB", 1);
+
+    open.onupgradeneeded = function() {
+      var db = open.result;
+      var store = db.createObjectStore("PendingReviews", { keyPath: "id" });
+    };
+
+
+    open.onsuccess = function() {
+      console.log("pending reviews db created");
+      var db = open.result;
+      var tx = db.transaction("PendingReviews", "readwrite");
+      var store = tx.objectStore("PendingReviews");
+      var putReq = store.put({ id: "0", name, rating, comments, restaurant_id }).onsuccess = function(res){
+        console.log("done", res.target.result);
+
+        navigator.serviceWorker.ready.then(function(swRegistration) {
+          return swRegistration.sync.register('aSync').then(() => {
+            console.log('Ola! Sync registered');
+          });
+        });
+
       }
-    ).then(res => { console.log(res)})
+    }
   }
+
  }
+
+

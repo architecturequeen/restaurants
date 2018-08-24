@@ -143,7 +143,7 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return `./img/${restaurant.id}.jpg`;
+    return `./img/${restaurant.id}.webp`;
   }
 
   /**
@@ -193,11 +193,36 @@ class DBHelper {
           xhr.onload = () => {
             if (xhr.status === 200) {
               // Got a success response from server!
-              const restaurants = JSON.parse(xhr.responseText);
+              let restaurants = JSON.parse(xhr.responseText);
+
+              // // get all reviews
+              // fetch("http://localhost:1337/reviews")
+              // .then(res => res.json())
+              // .catch(error => console.error('Error:', error))
+              // .then(reviews => {
+              //   console.log('Success:', reviews)
+
+              //   for (let res in restaurants){
+              //     restaurants[res]["reviews"]= [];
+              //     for (let rev in reviews){
+              //       if(reviews[rev].restaurant_id === reviews[rev].id){
+              //         restaurants[res].reviews.push(reviews[rev])
+              //       }
+              //     }
+              //   }
+              // console.log("FINAL RES", restaurants)
+
+              // var tx = db.transaction("RestaurantStore", "readwrite");
+              // var store = tx.objectStore("RestaurantStore");
+              // store.put({ id: "all", restaurants: restaurants });
+              // callback(null, restaurants);
+              // })
+
               var tx = db.transaction("RestaurantStore", "readwrite");
               var store = tx.objectStore("RestaurantStore");
               store.put({ id: "all", restaurants: restaurants });
               callback(null, restaurants);
+
             } else {
               // Oops!. Got an error from server.
               const error = `Request failed. Returned status of ${xhr.status}`;

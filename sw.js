@@ -36,3 +36,64 @@ self.addEventListener('fetch', function(event) {
     })
   );
 });
+
+self.addEventListener('sync', function(event) {
+  if (event.tag == 'aSync') {
+    console.log("syyynnnnc")
+    event.waitUntil(addReview());
+  }
+});
+
+const addReview = () => {
+  var indexedDB =
+      self.indexedDB ||
+      self.mozIndexedDB ||
+      self.webkitIndexedDB ||
+      self.msIndexedDB ||
+      self.shimIndexedDB;
+
+    var open = indexedDB.open("PendingReviewsDB", 1);
+
+    open.onupgradeneeded = function() {
+      var db = open.result;
+      var store = db
+    }
+
+    open.onsuccess = function() {
+      var db = open.result;
+      var tx = db.transaction("PendingReviews", "readwrite");
+      var store = tx.objectStore("PendingReviews");
+
+      store.get("0").onsuccess = function(res) {
+        if (res.target.result.name ){
+          console.log(res.target.result)
+          const name = res.target.result.name;
+          const rating = res.target.result.rating;
+          const comments = res.target.result.comments;
+          const restaurant_id = res.target.result.restaurant_id;
+          console.log("request -->", {name, rating, comments, restaurant_id})
+
+          fetch("http://localhost:1337/reviews/", {
+            method: "POST",
+            body : JSON.stringify({name, rating, comments, restaurant_id}),
+            headers: { "Content-Type": "application/json"}
+          })
+          .then(function (response) {
+            console.log(response);
+            return response;
+          })
+          .catch(function (error) {
+            console.log('Request failed', error);
+          });
+
+        }
+      }
+    }
+
+
+
+
+
+
+}
+
