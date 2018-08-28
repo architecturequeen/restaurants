@@ -140,8 +140,45 @@ createRestaurantHTML = (restaurant) => {
 
   const image = document.createElement('img');
   image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  // image["data-src"] = DBHelper.imageUrlForRestaurant(restaurant);
+  image["data-src"] = "./../img/test.jpg";
+  image.datasrc = DBHelper.imageUrlForRestaurant(restaurant);
+  image.src = "./../img/loading.webp";
   image.alt = restaurant.name ? `${restaurant.name} Restaurant Photo`: "Restaurant Photo";
+  //intersection
+  const fetchImage = (url) => {
+      return new Promise((resolve, reject) => {
+        const image = new Image();
+        image.src = url;
+        image.onload = resolve;
+        image.onerror = reject;
+      });
+    }
+   const loadImage = (image) => {
+      // const src = image.dataset.src;
+      const src = image["datasrc"];
+      console.log("real ", src)
+      fetchImage(src).then(() => {
+        image.src = src;
+      })
+    }
+  const handleIntersection = (entries, observer) => {
+      entries.forEach(entry => {
+        if(entry.intersectionRatio > 0) {
+          loadImage(entry.target)
+        }
+      })
+    }
+  const options = {
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+  const observer = new IntersectionObserver(handleIntersection, options);
+  observer.observe(image);
+
+
+
+
   li.append(image);
 
   const name = document.createElement('h2');

@@ -2,11 +2,7 @@ const filesToCache = [
   'index.html',
   'restaurant.html',
   './css/custom.css',
-  './css/grid.css',
-  './css/styles.css',
-  './css/under500.css',
-  './css/under620.css',
-  './css/under800.css'
+  './css/styles.css'
 ];
 
 const cacheName = 'restaurants-v1';
@@ -22,19 +18,33 @@ self.addEventListener('install', function(event) {
 });
 
 
-/* As a page is visited, it is stored in a a cache*/
+
 self.addEventListener('fetch', function(event) {
-  console.log('fetch')
   event.respondWith(
     caches.open(cacheName).then(function(cache) {
-      return cache.match(event.request).then(function (response) {
-        return response || fetch(event.request).then(function(response) {
+        return fetch(event.request).then(function(response) {
           cache.put(event.request, response.clone());
           return response;
+        }).catch(function(){
+          return fromCache(event.request);
         });
-      });
+
     })
   );
+
+  // event.respondWith(
+  //   caches.open(cacheName).then(function(cache) {
+  //     return cache.match(event.request).then(function (response) {
+  //       return response || fetch(event.request).then(function(response) {
+  //         cache.put(event.request, response.clone());
+  //         return response;
+  //       });
+  //     });
+  //   })
+  // );
+
+
+
 });
 
 self.addEventListener('sync', function(event) {
@@ -43,6 +53,7 @@ self.addEventListener('sync', function(event) {
     event.waitUntil(addReview());
   }
 });
+
 
 const addReview = () => {
   var indexedDB =
@@ -79,8 +90,8 @@ const addReview = () => {
             headers: { "Content-Type": "application/json"}
           })
           .then(function (response) {
-            console.log(response);
-            return response;
+            console.log(response)
+
           })
           .catch(function (error) {
             console.log('Request failed', error);
@@ -90,10 +101,34 @@ const addReview = () => {
       }
     }
 
-
-
-
-
-
 }
+
+function fromCache(request) {
+  return caches.open(cacheName).then(function (cache) {
+    return cache.match(request);
+  });
+}
+
+function fromNetwork(request, timeout) {
+  return new Promise(function (fulfill, reject) {
+    var timeoutId = setTimeout(reject, timeout);
+
+    fetch(request).then(function (response) {
+      clearTimeout(timeoutId);
+      fulfill(response);
+    }, reject);
+  });
+}
+
+function update(request) {
+  return caches.open(cacheName).then(function (cache) {
+    return fetch(request).then(function (response) {
+      console.log("request res")
+      return cache.put(request, response.clone()).then(function () {
+        return response;
+      });
+    });
+  });
+}
+
 

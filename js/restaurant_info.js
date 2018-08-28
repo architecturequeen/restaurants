@@ -41,7 +41,10 @@ fetchRestaurantFromURL = (callback) => {
         return;
       }
       fillRestaurantHTML();
-      styleFavBtn(restaurant);
+      fetch(`http://localhost:1337/restaurants/${id}`).then(res => res.json()).then(function(restaurant){
+        styleFavBtn(restaurant);
+      })
+
       callback(null, restaurant)
     });
   }
@@ -100,6 +103,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 fillReviewsHTML = () => {
   console.log("fill review called")
   const restaurantId =new URL(window.location.href).searchParams.get("id");
+  document.getElementById("restaurantId").value = restaurantId;
   console.log("Restaurant ID", restaurantId)
   fetch(`http://localhost:1337/reviews/?restaurant_id=${restaurantId}`)
   .then(res => res.json())
@@ -182,12 +186,12 @@ getParameterByName = (name, url) => {
 /**
  * Update Styling of Favourite Button
  */
-styleFavBtn = (restaurant=self.restaurant) => {
-  console.log(restaurant)
+styleFavBtn = (restaurant) => {
   const FAVOURITED_COLOUR = "rgb(255, 165, 0)";
-  const DEFAULT_COLOUR = "rgb(0, 0, 0)";
+  const DEFAULT_COLOUR = "rgb(0, 0, 0)"
   let favBtn = document.getElementById("fav-btn");
-  favBtn.style.color = restaurant.is_favorite ? FAVOURITED_COLOUR : DEFAULT_COLOUR;
+  favBtn.style.color = restaurant.is_favorite === "false" ? DEFAULT_COLOUR : FAVOURITED_COLOUR
+
 }
 
 
@@ -222,7 +226,7 @@ styleFavBtn = (restaurant=self.restaurant) => {
   const name = document.getElementById("user").value;
   const rating = document.getElementById("rating").value;
   const comments = document.getElementById("comments").value;
-  const restaurant_id = document.getElementById("restaurantId").value;
+  const restaurant_id = new URL(window.location.href).searchParams.get("id");
 
   console.log("will add to db", {name, rating, comments, restaurant_id})
 
@@ -260,12 +264,16 @@ styleFavBtn = (restaurant=self.restaurant) => {
         navigator.serviceWorker.ready.then(function(swRegistration) {
           return swRegistration.sync.register('aSync').then(() => {
             console.log('Ola! Sync registered');
+
           });
         });
 
       }
     }
   }
+
+  window.location.href = "http://localhost:8000";
+
 
  }
 
